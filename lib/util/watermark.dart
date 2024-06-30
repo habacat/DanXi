@@ -27,4 +27,5 @@ class Watermark {
   static void addWatermark(BuildContext context,
       {int rowCount = 3, int columnCount = 10, TextStyle? textStyle}) async {
         overlayEntry = null;
+  }
 }
