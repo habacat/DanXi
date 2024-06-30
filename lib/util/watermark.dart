@@ -25,28 +25,5 @@ class Watermark {
 
   /// Add a watermark to the screen.
   static void addWatermark(BuildContext context,
-      {int rowCount = 3, int columnCount = 10, TextStyle? textStyle}) async {
-    if (overlayEntry != null) {
-      overlayEntry!.remove();
-    }
-
-    OverlayState? overlayState = Overlay.of(context, rootOverlay: true);
-
-    overlayEntry = OverlayEntry(
-        builder: (context) => FullScreenWatermark(
-          rowCount: rowCount,
-          columnCount: columnCount,
-          textStyle: textStyle ??
-              TextStyle(
-                  color: PlatformX.isDarkMode
-                      ? Color(
-                      SettingsProvider.getInstance().darkWatermarkColor)
-                      : Color(SettingsProvider.getInstance()
-                      .lightWatermarkColor),
-                  fontSize: 36,
-                  decoration: TextDecoration.none),
-        ));
-
-    overlayState.insert(overlayEntry!);
-  }
+      overlayEntry = null;
 }
