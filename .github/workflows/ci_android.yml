@@ -26,18 +26,18 @@ jobs:
           flutter pub global activate intl_utils
           flutter pub global run intl_utils:generate
   
-      - name: Import Secrets
-        uses: actions/checkout@v2
-        with:
-          repository: DanXi-Dev/DanXi-secrets
-          path: secrets
-          ssh-key: ${{ secrets.SECRETS_SSH_KEY }}
+      # - name: Import Secrets
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: DanXi-Dev/DanXi-secrets
+      #     path: secrets
+      #     ssh-key: ${{ secrets.SECRETS_SSH_KEY }}
       
-      - name: Populate Secrets
-        run: |
-          mv -f secrets/sksl_default.json CI/sksl_default.json
-          mv -f secrets/key.properties android/key.properties
-          mv -f secrets/danxi.keystore android/danxi.keystore
+      # - name: Populate Secrets
+      #   run: |
+      #     mv -f secrets/sksl_default.json CI/sksl_default.json
+      #     mv -f secrets/key.properties android/key.properties
+      #     mv -f secrets/danxi.keystore android/danxi.keystore
 
       - name: Build APK
         run: |
