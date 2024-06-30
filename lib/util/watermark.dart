@@ -25,5 +25,6 @@ class Watermark {
 
   /// Add a watermark to the screen.
   static void addWatermark(BuildContext context,
-      overlayEntry = null;
+      {int rowCount = 3, int columnCount = 10, TextStyle? textStyle}) async {
+        overlayEntry = null;
 }
