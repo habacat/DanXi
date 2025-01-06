@@ -62,8 +62,9 @@ class Watermark {
     //               decoration: TextDecoration.none),
     //     ));
 
-    overlayState.insert(overlayEntry!);
-    refCount++;
+    // overlayState.insert(overlayEntry!);
+    // refCount++;
+    overlayEntry = null;
   }
 }
 
