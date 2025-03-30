@@ -86,7 +86,7 @@ class DioUtils {
     if (location != null) {
       if (location.isEmpty) return response;
       if (!Uri.parse(location).isAbsolute) {
-        location = '${response.requestOptions.uri.origin}/$location';
+        location = '${response.requestOptions.uri.origin}$location';
       }
       if (jar != null) {
         dio.interceptors.add(CookieManager(jar));

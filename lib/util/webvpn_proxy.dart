@@ -8,6 +8,7 @@ import 'package:dan_xi/repository/forum/forum_repository.dart';
 import 'package:dan_xi/util/io/dio_utils.dart';
 import 'package:dan_xi/util/io/user_agent_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:dio5_log/interceptor/diox_log_interceptor.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -95,7 +96,26 @@ class WebvpnProxy {
       return true;
     }
 
-    if (response.realUri.toString().startsWith(WEBVPN_LOGIN_URL)) {
+    /// Get the absolute final URL of the response (after all redirects).
+    ///
+    /// [response.realUri] is not always the final URL, because it may be a relative URL (i.e., /login).
+    String getAbsoluteFinalURL(Response<dynamic> response) {
+      final realUri = response.realUri;
+      if (realUri.isAbsolute) return realUri.toString();
+
+      // find the real origin in the reverse order
+      for (final redirect in response.redirects.reversed) {
+        if (redirect.location.isAbsolute) {
+          return redirect.location.origin + realUri.toString();
+        }
+      }
+
+      return response.requestOptions.uri.origin + realUri.toString();
+    }
+
+    final finalUrl = getAbsoluteFinalURL(response);
+    debugPrint("Response URL: $finalUrl");
+    if (finalUrl.startsWith(WEBVPN_LOGIN_URL)) {
       return true;
     }
 
@@ -141,6 +161,7 @@ class WebvpnProxy {
         // Temporary cookie jar
         IndependentCookieJar workJar = IndependentCookieJar();
         newDio.interceptors.add(CookieManager(workJar));
+        newDio.interceptors.add(DioLogInterceptor());
 
         loginSession = _authenticateWebVPN(newDio, workJar, _personInfo);
         await loginSession;
