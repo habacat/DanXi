@@ -191,7 +191,7 @@ class WebvpnProxy {
         throw WebvpnRequestException("Failed to login to UIS");
       }
     }
-    final ticket = _retrieveTicket(res);
+    final ticket = retrieveTicket(res);
 
     Map<String, dynamic> queryParams = {
       'cas_login': 'true',
@@ -204,7 +204,7 @@ class WebvpnProxy {
     await DioUtils.processRedirect(dio, response);
   }
 
-  static String? _retrieveTicket(Response<dynamic> response) {
+  static String? retrieveTicket(Response<dynamic> response) {
     // Check if the URL host matches the expected value
     if (response.realUri.host != "id.fudan.edu.cn") {
       return null;
